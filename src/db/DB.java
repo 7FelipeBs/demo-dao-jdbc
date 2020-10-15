@@ -40,7 +40,7 @@ public class DB {
 	}
 	
 	private static Properties loadProperties() {
-		try (FileInputStream fs = new FileInputStream("E:\\Temp\\ws-eclipse\\Course\\jdbc5 (Delete Datas)\\src\\db.properties")) {
+		try (FileInputStream fs = new FileInputStream("E:\\Temp\\ws-eclipse\\Course\\demo-dao-jdbc\\db.properties")) {
 			Properties props = new Properties();
 			props.load(fs);
 			return props;
