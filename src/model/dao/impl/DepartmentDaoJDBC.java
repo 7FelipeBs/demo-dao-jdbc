@@ -25,18 +25,77 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 	}
 	
 	@Override
-	public void Insert(Department obj) {
-		// TODO Auto-generated method stub
+	public void insert(Department obj) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"INSERT INTO department (Name) VALUES (?)",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			st.setString(1, obj.getName());
+			
+			int rowsAffected = st.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				
+				if(rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+					DB.closeResultSet(rs);
+				}
+			}
+			else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 		
 	}
 	@Override
 	public void update(Department obj) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"UPDATE department "
+					+ "SET Name = ? "
+					+ "WHERE Id = ?");
+			
+			st.setString(1, obj.getName());
+			st.setInt(2, obj.getId());
+			st.executeUpdate();
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}	
 	}
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"DELETE FROM department WHERE Id = ?");
+
+			st.setInt(1, id);
+			int rows = st.executeUpdate();
+			if(rows == 0) {
+				throw new DbException("Id don't exist!");
+			}
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}	
 		
 	}
 	@Override

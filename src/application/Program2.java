@@ -1,14 +1,11 @@
 package application;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 import model.dao.DaoFactory;
-import model.dao.SellerDao;
 import model.dao.DepartmentDao;
 import model.entities.Department;
-import model.entities.Seller;
 
 public class Program2 {
 
@@ -20,11 +17,8 @@ public class Program2 {
 		System.out.println("===== TEST 1: Department findById =====");
 		System.out.println();
 		
-		
-		System.out.println(departmentDao.findById(3));
-		
-		
-		//Department department = new Department(2, null);
+		Department department = departmentDao.findById(3);
+		System.out.println(department);
 		
 		System.out.println();
 		System.out.println("===================================");
@@ -45,16 +39,24 @@ public class Program2 {
 		System.out.println("===== TEST 3: Department insert =====");
 		System.out.println();
 		
-		
-		
+		Department newDepartment = new Department();
+		/*
+		departmentDao.insert(newDepartment);
+		System.out.println("Inserted! New id = " + newDepartment.getId());
+		*/
+		department = departmentDao.findById(5);
+		System.out.println("Department Insert: " + department.getName());
 		System.out.println();
 		System.out.println("===================================");
 		
 		System.out.println();
-		System.out.println("===== TEST 4: Department insert =====");
+		System.out.println("===== TEST 4: Department update =====");
 		System.out.println();
 		
-		
+		department = departmentDao.findById(2);
+		department.setName("Electronics Modern");
+		departmentDao.update(department);
+		System.out.println("Update completed: " + department.getName());
 		
 		System.out.println();
 		System.out.println("===================================");
@@ -62,8 +64,8 @@ public class Program2 {
 		System.out.println();
 		System.out.println("===== TEST 5: Department dellete =====");
 		System.out.println();
-		
-		
+		departmentDao.deleteById(8);
+		System.out.println("Success delete department!");
 		
 		System.out.println();
 		System.out.println("===================================");
